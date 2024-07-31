@@ -128,8 +128,6 @@ class SLAT(nn.Module):
         for i in range(stage):
             self.decoder_layers.append(nn.ModuleList([
                 nn.Conv2d(dim_stage, dim_stage // 2, 1, 1, bias=False),
-                # nn.Upsample(scale_factor=2), # 考虑用bilinear替换反卷积
-                # nn.ConvTranspose2d(dim_stage, dim_stage // 2, stride=2, kernel_size=2, padding=0, output_padding=0),
                 nn.Conv2d(dim_stage, dim_stage // 2, 1, 1, bias=False),
                 SLAB(dim=dim_stage // 2),
             ]))
