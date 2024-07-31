@@ -22,14 +22,6 @@ import torch.nn.functional as F
 
 
 
-def down_scale_bic(hsi_hr, scale):
-    hsi_hr = torch.from_numpy(hsi_hr.astype(np.float32)).contiguous()
-
-    hsi_patch = torch.unsqueeze(hsi_hr, dim=0)
-    hsi_patch_down = F.interpolate(hsi_patch, scale_factor=1 / scale, mode='bicubic')
-
-    hsi_patch = torch.squeeze(hsi_patch, dim=0)
-
 
 def get_patch(rgb, hsi_lr, hsi_hr, patch_size):
     _, ih, iw = hsi_lr.shape
