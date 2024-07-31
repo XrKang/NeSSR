@@ -8,7 +8,7 @@
 
 Prepare the ICVL dataset for training, it can be downloaded from this [link](https://icvl.cs.bgu.ac.il/hyperspectral/).
 
-Processed test dataset for inference can be downloaded from [BaiduYun](https://pan.baidu.com/s/10ZHsc7-2S5-NzC_BY9HPow?pwd=eccv).  
+Processed test dataset for inference can be downloaded from [BaiduYun](https://pan.baidu.com/s/1jCoAI96V73lwVp1DplYmjA?pwd=ijcv)(Access code: ijcv).
 
 
 ****
@@ -22,7 +22,7 @@ Processed test dataset for inference can be downloaded from [BaiduYun](https://p
 
 ### Spectral Reconstruction from RGB Images with Arbitrary Spectral Resolution 
 
-* Download the pre-trained model from [BaiduYun](https://pan.baidu.com/s/10ZHsc7-2S5-NzC_BY9HPow?pwd=eccv).  
+* Download the pre-trained model from [BaiduYun](https://pan.baidu.com/s/1jCoAI96V73lwVp1DplYmjA?pwd=ijcv)(Access code: ijcv).
 
 
 
@@ -33,7 +33,7 @@ cd ./SpectralRec && python test.py
 
 ### Spatial Reconstruction from RGB-HSI Pairs with Arbitrary Spatial Resolution 
 
-* Download the pre-trained model from [BaiduYun](https://pan.baidu.com/s/10ZHsc7-2S5-NzC_BY9HPow?pwd=eccv).  
+* Download the pre-trained model from [BaiduYun](https://pan.baidu.com/s/1jCoAI96V73lwVp1DplYmjA?pwd=ijcv)(Access code: ijcv). 
 
 * Inference with pre-trained model:
 ```
@@ -42,7 +42,7 @@ cd ./SpatialRec && python test.py
 
 ### Spatial-Spectral Reconstruction from RGB-MSI Pairs with Arbitrary Spatial-Spectral Resolution 
 
-* Download the pre-trained model from [BaiduYun](https://pan.baidu.com/s/10ZHsc7-2S5-NzC_BY9HPow?pwd=eccv).  
+* Download the pre-trained model from [BaiduYun](https://pan.baidu.com/s/1jCoAI96V73lwVp1DplYmjA?pwd=ijcv)(Access code: ijcv).
 
 * Inference with pre-trained model:
 ```
