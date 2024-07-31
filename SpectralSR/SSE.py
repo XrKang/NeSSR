@@ -189,13 +189,6 @@ class Feature_Encoder(nn.Module):
         self.conv_last1 = nn.Conv2d(self.n_feat, 64, 3, 1, 1, bias=True)
         self.conv_last2 = nn.Conv2d(64, self.out_channels, 3, 1, 1, bias=True)
 
-        # self.upconv1 = nn.Conv2d(self.n_feat, 64 * 4, 3, 1, 1, bias=True)
-        # # self.upconv2 = nn.Conv2d(self.nf, 64 * 4, 3, 1, 1, bias=True)
-        # self.pixel_shuffle = nn.PixelShuffle(2)
-        # self.HRconv1 = nn.Conv2d(64, 64, 3, 1, 1, bias=True)
-        # self.HRconv2 = nn.Conv2d(64, 64, 3, 1, 1, bias=True)
-        # self.conv_last = nn.Conv2d(64, self.out_channels, 3, 1, 1, bias=True)
-
         self.lrelu = nn.LeakyReLU(negative_slope=0.1, inplace=True)
 
     def forward(self, x):
@@ -219,14 +212,6 @@ class Feature_Encoder(nn.Module):
         h = self.conv_last2(h)
 
         return h[:, :, :h_inp, :w_inp]
-
-        # h = self.lrelu(self.pixel_shuffle(self.upconv1(h)))
-        # Result = self.lrelu(self.HRconv1(h))
-        # Result = self.lrelu(self.HRconv2(Result))
-        # Result = h + Result
-        # Result = self.conv_last(Result)
-        # return Result[:, :, :h_inp, :w_inp]
-
 
 
 
