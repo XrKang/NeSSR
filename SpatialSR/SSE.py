@@ -200,8 +200,6 @@ class Feature_Encoder(nn.Module):
         pad_w = (wb - w_inp % wb) % wb
         x = F.pad(x, [0, pad_w, 0, pad_h], mode='reflect')
 
-        # x = resample_data(x, 2)
-
         x = self.lrelu(self.conv_in(x))
         h = self.body(x)
         h = self.conv_out(h)
@@ -212,49 +210,6 @@ class Feature_Encoder(nn.Module):
         return h[:, :, :h_inp, :w_inp]
 
         
-
-
-if __name__ == '__main__':
-    import argparse
-    from thop.profile import profile
-
-    parser = argparse.ArgumentParser(description="SLAT")
-    args = parser.parse_args()
-    args.in_channels = 3
-    args.out_channels = 31
-    args.n_feat = 64
-    args.stage = 2
-
-    device = "cpu"
-    if torch.cuda.is_available():
-        device = "cuda"
-
-    model = Feature_Encoder(args).to(device)
-    model.train()
-    # model.eval()
-    dsize1 = (1, 3, 128, 128)
-    # dsize1 = (1, 3, 482, 512)
-
-    name = "SLAT"
-    input1 = torch.randn(dsize1).to(device)
-    print(model(input1).shape)
-    total_ops, total_params = profile(model, (input1,))
-    print("%s         | %.2f(M)      | %.2f(G)         |" % (name, total_params / (1000 ** 2), total_ops / (1000 ** 3)))
-
-    # 128x 128  SLAT | 2.57(M) | 4.12(G) |
-
-    import datetime
-    oldtime = datetime.datetime.now()
-    with torch.no_grad():
-        for i in range(10):
-            output_tensor = model(input1)
-            if i==1:
-                print(output_tensor.shape)
-    newtime = datetime.datetime.now()
-    print('Time consuming: ', newtime - oldtime)
-    # 32x32 10 times -> 0.174
-    # 64x64 10 times -> 0.203046
-
 
 
 

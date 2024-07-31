@@ -180,7 +180,6 @@ class Feature_Encoder(nn.Module):
         self.n_feat = args.n_feat
         self.stage = args.stage
 
-        # self.conv_in = nn.Conv2d(self.in_channels*4, self.n_feat, kernel_size=3, padding=(3 - 1) // 2, bias=False)
         self.conv_in = nn.Conv2d(self.in_channels, self.n_feat, kernel_size=3, padding=(3 - 1) // 2, bias=False)
         modules_body = [SLAT(in_dim=self.n_feat, out_dim=self.n_feat, dim=self.n_feat, stage=2)
                         for _ in range(self.stage)]
@@ -202,7 +201,6 @@ class Feature_Encoder(nn.Module):
         pad_w = (wb - w_inp % wb) % wb
         x = F.pad(x, [0, pad_w, 0, pad_h], mode='reflect')
 
-        # x = resample_data(x, 2)
 
         x = self.lrelu(self.conv_in(x))
         h = self.body(x)
