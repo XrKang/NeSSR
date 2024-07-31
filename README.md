@@ -15,7 +15,7 @@ Processed test dataset for inference can be downloaded from [BaiduYun](https://p
 
 ## Dependencies
 * Python 3.8.8, PyTorch 1.8.0, torchvision 0.9.0.
-* NumPy 1.24.2, OpenCV 4.7.0, Tensorboardx 2.5.1, Pillow, Imageio. 
+* NumPy 1.24.2, OpenCV 4.7.0, Tensorboardx 2.5.1, Pillow, Imageio, SciPy.
 ****
 
 ## Quick Start
