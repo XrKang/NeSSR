@@ -33,7 +33,7 @@ cd ./SpectralRec && python test.py
 
 ### Spatial Reconstruction from RGB-HSI Pairs with Arbitrary Spatial Resolution 
 
-* Download the pre-trained model from [BaiduYun](https://pan.baidu.com/s/1jCoAI96V73lwVp1DplYmjA?pwd=ijcv)(Access code: ijcv). 
+* Download the pre-trained model from [BaiduYun](https://pan.baidu.com/s/1jCoAI96V73lwVp1DplYmjA?pwd=ijcv) (Access code: ijcv). 
 
 * Inference with pre-trained model:
 ```
