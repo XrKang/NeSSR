@@ -134,7 +134,6 @@ class NeSRP(nn.Module):
 
 
     def forward(self, rgb, hsi,  coor, scale):
-        # 获取LR的feature和coordinate
         x = torch.cat([rgb, hsi], dim=1)
         feat = self.feature_encoder(x)  # bs,nf, h, w
         bs, _, bands, H, W = coor.shape
@@ -149,17 +148,12 @@ class NeSRP(nn.Module):
 
         feat_HC = feat_HC.permute(0, 3, 2, 1)   # (b,bands,h,w)
         feat_HC = feat_HC.unsqueeze(dim=1)      # (b,1, bands,h,w)
-        # print("feat_HC", feat_HC.shape)
         feat_WC = feat_WC.permute(0, 3, 1, 2)   # (b,bands,h,w)
         feat_WC = feat_WC.unsqueeze(dim=1)      # (b,1,bands,h,w)
-        # print("feat_WC", feat_WC.shape)
 
         feat_inp = torch.cat([feat_HC, feat_WC], dim=1) # (b,2,bands,h,w)
-        # print("feat_inp", feat_inp.shape)
         feat_inp_3d = self.lrelu(self.conv_3d_2(self.conv_3d_1(feat_inp)))
         feat_inp_coord = torch.cat([feat_inp_3d, coor, scale], dim=1)
-        # feat_inp_3d = self.lrelu((self.conv_3d_1(feat_inp)))
-        # print("feat_inp_3d", feat_inp_3d.shape)     # (b,16,bands,h,w)
 
         feat_inp_3d = feat_inp_3d.permute(0, 2, 3, 4, 1)    # (b,bands,h,w,16)
         feat_inp_coord = feat_inp_coord.permute(0, 2, 3, 4, 1)    # (b,bands,h,w,16+3)
@@ -173,7 +167,6 @@ class NeSRP(nn.Module):
         pred = self.imnet(feat_mlp_inp, feat_mlp_inp_coord, coord).contiguous().view(bs, bands, H, W, -1)
 
         pred = pred[:, :, :, :, 0]  # (b,bands,h,w)
-        # print("pred", pred.shape)
 
         return pred
 
@@ -188,13 +181,10 @@ def make_coord(shape, ranges=None,):
             v0, v1 = ranges[i]
         r = (v1 - v0) / (2 * n)
         seq = v0 + r + (2 * r) * torch.arange(n).float()    # size->(H,) range([-1, 1) center(=0.00
-        # r=1/H
-        # seq=(((2/H * arr[0:H-1])->arr[0:2*(H-1)/H] + (-1))->arr[-1:(2*H-2)/H)-1]) + (1/H)) -> arr[-1/H:1/H].size(H,)
+        
         coord_seqs.append(seq)
     ret = torch.stack(torch.meshgrid(*coord_seqs), dim=-1)
-    # ret->size[H,W] range([-1/H, 1/H], [-1/W, 1/W]), center(1/H,1/W)=0.0.0
     return ret
-    # If not flatten: (H,W,2)
 
 if __name__ == "__main__":
     from argparse import Namespace

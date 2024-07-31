@@ -42,35 +42,12 @@ def make_coord(shape, ranges=None,):
             v0, v1 = ranges[i]
         r = (v1 - v0) / (2 * n)
         seq = v0 + r + (2 * r) * torch.arange(n).float()    # size->(H,) range([-1, 1) center(=0.00
-        # r=1/H
-        # seq=(((2/H * arr[0:H-1])->arr[0:2*(H-1)/H] + (-1))->arr[-1:(2*H-2)/H)-1]) + (1/H)) -> arr[-1/H:1/H].size(H,)
+       
         coord_seqs.append(seq)
     ret = torch.stack(torch.meshgrid(*coord_seqs), dim=-1)
-    # ret->size[H,W] range([-1/H, 1/H], [-1/W, 1/W]), center(1/H,1/W)=0.0.0
-    # torch.meshgrid()的功能是生成网格，可以用于生成坐标。
+
     return ret
 
-# def make_coord(shape, ranges=None, flatten=False):
-#     """ Make coordinates at grid centers.
-#     """
-#     coord_seqs = []
-#     for i, n in enumerate(shape):
-#         if ranges is None:
-#             v0, v1 = -1, 1
-#         else:
-#             v0, v1 = ranges[i]
-#         r = (v1 - v0) / (2 * n)
-#         seq = v0 + r + (2 * r) * torch.arange(n).float()    # size->(H,) range([-1, 1) center(=0.00
-#         # r=1/H
-#         # seq=(((2/H * arr[0:H-1])->arr[0:2*(H-1)/H] + (-1))->arr[-1:(2*H-2)/H)-1]) + (1/H)) -> arr[-1/H:1/H].size(H,)
-#         coord_seqs.append(seq)
-#     ret = torch.stack(torch.meshgrid(*coord_seqs), dim=-1)
-#     # ret->size[H,W] range([-1/H, 1/H], [-1/W, 1/W]), center(1/H,1/W)=0.0.0
-#     if flatten:
-#         ret = ret.view(-1, ret.shape[-1])
-#     return ret
-
-    # If not flatten: (H,W,2)
 
 def gaussian(window_size, sigma):
     gauss = torch.Tensor([exp(-(x - window_size // 2) ** 2 / float(2 * sigma ** 2)) for x in range(window_size)])

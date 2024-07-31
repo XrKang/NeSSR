@@ -128,8 +128,6 @@ class SLAT(nn.Module):
         for i in range(stage):
             self.decoder_layers.append(nn.ModuleList([
                 nn.Conv2d(dim_stage, dim_stage // 2, 1, 1, bias=False),
-                # nn.Upsample(scale_factor=2), # 考虑用bilinear替换反卷积
-                # nn.ConvTranspose2d(dim_stage, dim_stage // 2, stride=2, kernel_size=2, padding=0, output_padding=0),
                 nn.Conv2d(dim_stage, dim_stage // 2, 1, 1, bias=False),
                 SLAB(dim=dim_stage // 2),
             ]))
@@ -180,7 +178,6 @@ class Feature_Encoder(nn.Module):
         self.n_feat = args.n_feat
         self.stage = args.stage
 
-        # self.conv_in = nn.Conv2d(self.in_channels*4, self.n_feat, kernel_size=3, padding=(3 - 1) // 2, bias=False)
         self.conv_in = nn.Conv2d(self.in_channels, self.n_feat, kernel_size=3, padding=(3 - 1) // 2, bias=False)
         modules_body = [SLAT(in_dim=self.n_feat, out_dim=self.n_feat, dim=self.n_feat, stage=2)
                         for _ in range(self.stage)]
@@ -189,12 +186,6 @@ class Feature_Encoder(nn.Module):
         self.conv_last1 = nn.Conv2d(self.n_feat, 64, 3, 1, 1, bias=True)
         self.conv_last2 = nn.Conv2d(64, self.out_channels, 3, 1, 1, bias=True)
 
-        # self.upconv1 = nn.Conv2d(self.n_feat, 64 * 4, 3, 1, 1, bias=True)
-        # # self.upconv2 = nn.Conv2d(self.nf, 64 * 4, 3, 1, 1, bias=True)
-        # self.pixel_shuffle = nn.PixelShuffle(2)
-        # self.HRconv1 = nn.Conv2d(64, 64, 3, 1, 1, bias=True)
-        # self.HRconv2 = nn.Conv2d(64, 64, 3, 1, 1, bias=True)
-        # self.conv_last = nn.Conv2d(64, self.out_channels, 3, 1, 1, bias=True)
 
         self.lrelu = nn.LeakyReLU(negative_slope=0.1, inplace=True)
 
@@ -219,14 +210,6 @@ class Feature_Encoder(nn.Module):
         h = self.conv_last2(h)
 
         return h[:, :, :h_inp, :w_inp]
-
-        # h = self.lrelu(self.pixel_shuffle(self.upconv1(h)))
-        # Result = self.lrelu(self.HRconv1(h))
-        # Result = self.lrelu(self.HRconv2(Result))
-        # Result = h + Result
-        # Result = self.conv_last(Result)
-        # return Result[:, :, :h_inp, :w_inp]
-
 
 
 
